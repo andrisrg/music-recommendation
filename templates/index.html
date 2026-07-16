@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎵 Sistem Rekomendasi Lagu Berdasarkan Mood</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+</head>
+<body style="font-family: Arial; text-align:center; padding:40px; background:linear-gradient(to right, #ffffff, #67029d);">
+    <div class="container">
+        <!-- Header -->
+      <header class="header">
+        <h1 style="color: white;">🎵 Music Recommendation System</h1>
+        <p class="subtitle">Temukan lagu yang cocok dengan mood kamu!</p>
+      </header>
+
+      <!-- Main Content -->
+      <div class="content">
+        <!-- Input Form -->
+        <div class="card form-card">
+          <h2>Pilih Preferensi Musik Anda</h2>
+          <p class="form-description">
+            Pilih mood dan genre favorit kamu, lalu kami akan merekomendasikan lagu
+            yang sesuai dengan preferensi kamu!
+          </p>
+
+          <form id="recommendationForm">
+            <div class="form-group">
+              <label for="mood">
+                <span class="emoji">😊</span> Bagaimana Mood Kamu Hari Ini?
+              </label>
+              <select id="mood" name="mood" required>
+                <option value="">Pilih Mood Kamu</option>
+                {% for mood in moods %}
+                <option value="{{ mood }}">
+                    {{ mood }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="form-group">
+                <label for="genre">
+                    <span class="emoji">🎸</span> Genre Musik Apa yang Kamu inginkan?
+                </label>
+                <select id="genre" name="genre" required>
+                    <option value="">Pilih Mood Terlebih Dahulu</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+            Cari Rekomendasi Lagu
+            </button>
+          </form>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading" style="display: none">
+          <div class="spinner"></div>
+          <p>Sedang mencari lagu terbaik untuk Kamu...</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="results" style="display: none">
+          <div class="card results-card">
+            <h2>🎧 Rekomendasi Lagu untuk Kamu</h2>
+            <p id="resultMessage" class="result-message"></p>
+
+            <div id="recommendationsList" class="recommendations-list">
+              <!-- Recommendations will be inserted here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script id="mood-data" type="application/json">
+    {{ mood_genre_map | tojson }}
+</script>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
